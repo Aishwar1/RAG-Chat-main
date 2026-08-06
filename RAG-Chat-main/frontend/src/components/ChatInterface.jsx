@@ -240,9 +240,20 @@ const ChatInterface = () => {
           ? `fixed inset-y-0 left-0 w-72 shadow-2xl p-4 transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}` 
           : `relative transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${isSidebarOpen ? 'w-72 p-4' : 'w-[76px] py-4 px-2 items-center'}`}
       `}
-        style={{ borderColor: 'var(--border-subtle)', background: 'var(--bg-surface)' }}>
+        style={{ borderColor: 'var(--border-subtle)' }}>
 
-        <div className={`flex w-full ${isSidebarOpen ? 'justify-between' : 'justify-center'} px-1 items-center`}>
+        <div className="absolute inset-0 aishwar-sidebar pointer-events-none" />
+
+        <div className={`relative flex w-full ${isSidebarOpen ? 'justify-between' : 'justify-center'} px-1 items-center`}>
+          {isSidebarOpen && (
+            <div className="flex items-center gap-2.5">
+              <div className="aishwar-mark w-8 h-8 rounded-xl text-white flex items-center justify-center font-bold text-sm">A</div>
+              <div className="leading-none">
+                <p className="font-bold tracking-tight text-[17px]" style={{ color: 'var(--text-primary)' }}>Aishwar</p>
+                <p className="text-[9px] uppercase tracking-[0.16em] mt-1" style={{ color: 'var(--text-muted)' }}>Business intelligence</p>
+              </div>
+            </div>
+          )}
           {!isMobile && (
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -269,10 +280,10 @@ const ChatInterface = () => {
             handleNewChat();
             if (isMobile) setIsSidebarOpen(false);
           }}
-          className={`group flex items-center rounded-xl font-medium transition-all duration-300 flex-shrink-0 overflow-hidden hover:bg-black/5 dark:hover:bg-white/5 ${
+          className={`relative group flex items-center rounded-xl font-medium transition-all duration-300 flex-shrink-0 overflow-hidden text-white shadow-sm ${
             isSidebarOpen ? 'justify-start gap-3 px-3 py-2.5 w-full mx-0' : 'justify-center p-0 w-11 h-11'
           }`}
-          style={{ color: 'var(--text-secondary)' }}
+          style={{ background: 'linear-gradient(135deg, #0f766e, #0b5b65)' }}
           title="New chat"
         >
           <NotePencilIcon size={isSidebarOpen ? 20 : 20} className="flex-shrink-0 transition-transform duration-300 group-hover:scale-105 opacity-80" />
@@ -284,13 +295,16 @@ const ChatInterface = () => {
         </button>
 
         {/* Lower Sidebar Content */}
-        <div className={`flex flex-col flex-1 min-h-0 transition-opacity duration-300 ${
+        <div className={`relative flex flex-col flex-1 min-h-0 transition-opacity duration-300 ${
             isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`} style={{ width: '100%' }}>
           
           {/* History */}
           <div className="flex flex-col flex-1 min-h-0">
-            <p className="text-xs font-semibold mb-3 px-2 flex-shrink-0 tracking-wider" style={{ color: 'var(--text-muted)' }}>RECENT CHATS</p>
+            <div className="flex items-center justify-between mb-3 px-2 flex-shrink-0">
+              <p className="text-[10px] font-bold tracking-[0.14em]" style={{ color: 'var(--text-muted)' }}>RECENT WORK</p>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" title="Workspace online" />
+            </div>
             <div className="flex-1 overflow-y-auto px-1">
               {user ? (
                 <ChatHistory
@@ -329,9 +343,13 @@ const ChatInterface = () => {
                   <ListIcon size={22} />
                 </button>
              )}
-            <span className="text-base md:text-lg font-semibold tracking-tight" style={{ color: 'var(--text-secondary)' }}>
-              Maester
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="aishwar-mark w-7 h-7 rounded-lg text-white flex items-center justify-center font-bold text-xs">A</div>
+              <div>
+                <span className="text-base md:text-lg font-bold tracking-tight block leading-none" style={{ color: 'var(--text-primary)' }}>Aishwar</span>
+                <span className="hidden md:block text-[9px] uppercase tracking-[0.14em] mt-1" style={{ color: 'var(--text-muted)' }}>Knowledge workspace</span>
+              </div>
+            </div>
           </div>
           <div className="flex items-center gap-3 md:gap-5">
             {user && <FileSelector asHeaderIcon={true} onSelectionChange={setSelectedFiles} selectedFiles={selectedFiles} refreshTrigger={refreshTrigger} />}
@@ -407,9 +425,9 @@ const ChatInterface = () => {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="px-4 py-1.5 rounded-xl text-xs font-medium text-white btn-gradient transition-opacity hover:opacity-90"
+                className="px-4 py-2 rounded-lg text-xs font-semibold text-white btn-gradient transition-opacity hover:opacity-90"
               >
-                Login
+                Sign in
               </button>
             )}
           </div>
@@ -460,8 +478,30 @@ const ChatInterface = () => {
           {/* Welcome text — sits just above input on welcome screen */}
           {messages.length === 0 && (
             <div className="w-full max-w-3xl mb-5 animate-fade-in">
-              <span className="text-xl md:text-2xl font-regular block" style={{ color: 'var(--text-secondary)' }}>Hi {user?.username || 'Buddy'}</span>
-              <span className="text-3xl md:text-4xl leading-tight block" style={{ color: 'var(--text-primary)', fontWeight: 400 }}>Where should we start?</span>
+              <div className="aishwar-welcome-card rounded-3xl p-5 md:p-7 mb-4">
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] mb-4" style={{ color: 'var(--accent-teal)' }}>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" /> Aishwar workspace
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold tracking-[-0.04em] leading-tight" style={{ color: 'var(--text-primary)' }}>
+                  Make clearer decisions,<br /><span className="gradient-text">with every document in reach.</span>
+                </h1>
+                <p className="mt-3 max-w-xl text-sm md:text-[15px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  Ask about reports, contracts, operations, and customer insight. Aishwar responds using only the knowledge you provide.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-6">
+                  {[
+                    { icon: <FileTextIcon size={17} />, title: 'Upload knowledge', text: 'Add reports and files', action: () => setShowUpload(true) },
+                    { icon: <DatabaseIcon size={17} />, title: 'Ask with context', text: 'Grounded in your data', action: () => textareaRef.current?.focus() },
+                    { icon: <LightningIcon size={17} />, title: 'Move faster', text: 'Get focused answers', action: () => textareaRef.current?.focus() },
+                  ].map((item) => (
+                    <button key={item.title} onClick={item.action} className="text-left rounded-2xl p-3.5 transition-all hover:-translate-y-0.5 hover:shadow-md" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-base)' }}>
+                      <span className="inline-flex p-2 rounded-xl mb-3" style={{ color: 'var(--accent-teal)', background: 'var(--bg-surface-hover)' }}>{item.icon}</span>
+                      <span className="block text-xs font-bold" style={{ color: 'var(--text-primary)' }}>{item.title}</span>
+                      <span className="block mt-1 text-[11px]" style={{ color: 'var(--text-muted)' }}>{item.text}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           <div className="relative w-full max-w-3xl">
@@ -469,8 +509,9 @@ const ChatInterface = () => {
             <div 
               className="w-full rounded-[24px] md:rounded-[30px] flex flex-col p-1.5 md:p-2 transition-all duration-200 shadow-sm border-[1px] relative z-10" 
               style={{ 
-                background: 'var(--bg-base)', 
-                borderColor: 'var(--border-subtle)'
+                background: 'var(--bg-surface)', 
+                borderColor: 'var(--border-subtle)',
+                boxShadow: '0 12px 32px rgba(20, 54, 45, 0.08)'
               }}
             >
               <textarea
@@ -479,7 +520,7 @@ const ChatInterface = () => {
                 onChange={e => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 onClick={() => { if (!user) setShowAuthModal(true); }}
-                placeholder={user ? (isMobile ? "Ask anything..." : "Ask With Context") : "Login to start chatting..."}
+                placeholder={user ? (isMobile ? "Ask Aishwar..." : "Ask Aishwar about your business") : "Sign in to start a conversation..."}
                 className="w-full bg-transparent resize-none text-[15px] p-3 leading-relaxed focus:outline-none focus:ring-0 placeholder:text-gray-500 dark:placeholder:text-gray-500"
                 style={{ color: 'var(--text-primary)', minHeight: '50px', maxHeight: '50px', overflowY: 'auto' }}
                 rows={1}

@@ -27,7 +27,9 @@ const MessageBubble = ({ message }) => {
     <div className="flex gap-2.5 md:gap-4 mb-5 max-w-[95%] md:max-w-[85%]">
       {/* Diamond icon */}
       <div className="flex-shrink-0 mt-1">
-        <DiamondsFourIcon size={20} className="md:w-6 md:h-6 text-purple-600" />
+        <div className="aishwar-mark w-7 h-7 md:w-8 md:h-8 rounded-lg text-white flex items-center justify-center">
+          <DiamondsFourIcon size={15} weight="fill" />
+        </div>
       </div>
 
       <div className="flex-1 min-w-0">

@@ -1,8 +1,8 @@
-import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 export const metadata = {
-  title: 'RAG Pipeline - AI Assistant',
+  title: 'Aishwar | Business Intelligence Workspace',
+  description: 'Your private workspace for answers grounded in your business documents.',
   icons: { icon: '/favicon.svg' },
 };
 
@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
-        <Analytics />
       </body>
     </html>
   );

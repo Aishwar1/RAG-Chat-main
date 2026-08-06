@@ -40,11 +40,18 @@ const AuthModal = ({ onClose }) => {
           <X size={16} />
         </button>
 
-        <h2 className="text-lg font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
-          {mode === 'login' ? 'Welcome back' : 'Create account'}
-        </h2>
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="aishwar-mark w-9 h-9 rounded-xl text-white flex items-center justify-center font-bold">A</div>
+          <div>
+            <h2 className="text-lg font-bold leading-none" style={{ color: 'var(--text-primary)' }}>Aishwar</h2>
+            <p className="text-[10px] uppercase tracking-[0.14em] mt-1" style={{ color: 'var(--text-muted)' }}>Business workspace</p>
+          </div>
+        </div>
+        <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
+          {mode === 'login' ? 'Welcome back' : 'Create your workspace'}
+        </h3>
         <p className="text-xs mb-5" style={{ color: 'var(--text-muted)' }}>
-          {mode === 'login' ? 'Login to access your chats' : 'Just username & password, no email needed'}
+          {mode === 'login' ? 'Sign in to access your private knowledge workspace' : 'Just username and password, no email needed'}
         </p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -83,7 +90,7 @@ const AuthModal = ({ onClose }) => {
             disabled={loading || !username || !password}
             className="w-full py-2.5 rounded-xl text-sm font-medium text-white btn-gradient disabled:opacity-50 transition-opacity mt-1"
           >
-            {loading ? 'Please wait...' : mode === 'login' ? 'Login' : 'Create account'}
+            {loading ? 'Please wait...' : mode === 'login' ? 'Sign in to Aishwar' : 'Create workspace'}
           </button>
         </form>
 

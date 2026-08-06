@@ -1,40 +1,38 @@
-@import url('https://fonts.cdnfonts.com/css/google-sans');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-base: #ffffff;
-  --bg-surface: #f0f4f9;
-  --bg-surface-hover: #e8eaed;
-  --border-subtle: #e0e0e0;
-  --border-glow: rgba(139, 92, 246, 0.3);
-  --text-primary: #1f1f1f;
-  --text-secondary: #444746;
-  --text-muted: #747775;
-  --accent-purple: #7c3aed;
-  --accent-indigo: #4f46e5;
-  --accent-teal: #0d9488;
-  --glow-purple: rgba(139, 92, 246, 0.15);
+  --bg-base: #f6f8f7;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #eef3f0;
+  --border-subtle: #dce5e0;
+  --border-glow: rgba(15, 118, 110, 0.25);
+  --text-primary: #14231f;
+  --text-secondary: #29443d;
+  --text-muted: #6b7d76;
+  --accent-purple: #0f766e;
+  --accent-indigo: #0f5f69;
+  --accent-teal: #0f766e;
+  --glow-purple: rgba(15, 118, 110, 0.12);
   --code-bg: rgba(0, 0, 0, 0.05);
   --progress-bg: rgba(0, 0, 0, 0.05);
 }
 
 /* ── Gemini-style dark palette ── */
 html.dark {
-  --bg-base: #131314;
-  --bg-surface: #1e1f20;
-  --bg-surface-hover: #2a2b2d;
-  --border-subtle: #3c4043;
-  --border-glow: rgba(168, 133, 246, 0.4);
-  --text-primary: #e3e3e3;
-  --text-secondary: #c4c7c5;
-  --text-muted: #8e918f;
-  --accent-purple: #a78bfa;
-  --accent-indigo: #818cf8;
-  --accent-teal: #2dd4bf;
-  --glow-purple: rgba(139, 92, 246, 0.25);
+  --bg-base: #0b1513;
+  --bg-surface: #11221f;
+  --bg-surface-hover: #19312c;
+  --border-subtle: #29433d;
+  --border-glow: rgba(45, 212, 191, 0.34);
+  --text-primary: #edf7f2;
+  --text-secondary: #c7ddd3;
+  --text-muted: #89a69a;
+  --accent-purple: #48c9b0;
+  --accent-indigo: #74d6d1;
+  --accent-teal: #48c9b0;
+  --glow-purple: rgba(72, 201, 176, 0.16);
   --code-bg: rgba(255, 255, 255, 0.08);
   --progress-bg: rgba(255, 255, 255, 0.08);
 }
@@ -51,7 +49,7 @@ body {
 }
 
 body {
-  font-family: 'Google Sans Flex', 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: var(--bg-base);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -138,7 +136,7 @@ html.dark .glass-card {
 
 /* ─── Gradient Text ─── */
 .gradient-text {
-  background: linear-gradient(135deg, #c4b5fd, #818cf8, #38bdf8);
+  background: linear-gradient(135deg, #0f766e, #0f5f69, #299d8f);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -280,13 +278,13 @@ html.dark .blur-backdrop {
 
 /* ─── Gradient Button ─── */
 .btn-gradient {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  background: linear-gradient(135deg, #0f766e, #0b5b65);
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .btn-gradient:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 24px rgba(15, 118, 110, 0.3);
 }
 
 .btn-gradient:active:not(:disabled) {
@@ -361,6 +359,41 @@ html.dark .msg-ai {
   opacity: 0.85;
   transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
+}
+
+/* Aishwar workspace */
+.aishwar-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  background-image: linear-gradient(rgba(15, 118, 110, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+}
+
+.aishwar-mark {
+  background: linear-gradient(145deg, #0f766e, #0b4651);
+  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.24);
+}
+
+.aishwar-sidebar {
+  background: linear-gradient(180deg, #fdfefd 0%, #f3f7f5 100%) !important;
+}
+
+html.dark .aishwar-sidebar {
+  background: linear-gradient(180deg, #10231f 0%, #0c1916 100%) !important;
+}
+
+.aishwar-welcome-card {
+  background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(241,248,245,.88));
+  border: 1px solid rgba(15,118,110,.12);
+  box-shadow: 0 16px 40px rgba(19, 53, 44, .06);
+}
+
+html.dark .aishwar-welcome-card {
+  background: linear-gradient(135deg, rgba(21,45,39,.92), rgba(13,31,27,.92));
+  border-color: rgba(72,201,176,.14);
 }
 
 html.dark .gemini-bloom-glow {
