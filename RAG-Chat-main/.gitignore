@@ -33,6 +33,8 @@ backend/faiss_store/
 # UV Package Manager
 uv.lock
 
+frontend/node_modules/
+
 # IDE
 .vscode/
 .idea/
