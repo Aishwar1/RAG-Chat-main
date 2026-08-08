@@ -19,7 +19,10 @@ class TerminalLogCapture:
         return getattr(self.original_stdout, 'isatty', lambda: False)()
 
     def fileno(self):
-        return getattr(self.original_stdout, 'fileno', lambda: -1)()
+        try:
+            return self.original_stdout.fileno()
+        except Exception:
+            return 1  # fallback to stdout fd
 
     def clear(self):
         with self.lock:
@@ -28,8 +31,15 @@ class TerminalLogCapture:
 
     def write(self, text):
         with self.lock:
-            # Always pass through to real console
-            self.original_stdout.write(text)
+            # Always pass through to real console, handling encoding issues on Windows
+            try:
+                self.original_stdout.write(text)
+            except (UnicodeEncodeError, UnicodeDecodeError):
+                try:
+                    safe_text = text.encode(self.original_stdout.encoding or 'utf-8', errors='replace').decode(self.original_stdout.encoding or 'utf-8', errors='replace')
+                    self.original_stdout.write(safe_text)
+                except Exception:
+                    pass
             self.original_stdout.flush()
 
             # Process stream

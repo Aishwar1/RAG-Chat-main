@@ -1,9 +1,13 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+let API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// Remove trailing slashes
+API_URL = API_URL.replace(/\/+$/, '');
+// Ensure it ends with /api, but don't add it twice
+const baseURL = API_URL.endsWith('/api') ? API_URL : `${API_URL}/api`;
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -53,7 +57,7 @@ export const uploadDocument = async (file, onProgress) => {
     // Local mode: upload directly to backend
     const formData = new FormData();
     formData.append('file', file);
-    const { data: localData } = await api.post(`${API_URL}/upload/local`, formData, {
+    const { data: localData } = await api.post(`/upload/local`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: (progressEvent) => {
         const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
