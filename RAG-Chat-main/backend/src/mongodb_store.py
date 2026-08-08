@@ -64,6 +64,13 @@ class MongoDBVectorStore:
         self.model = SentenceTransformer(embedding_model)
         self.emb_pipe = EmbeddingPipeline(model_name=embedding_model)
         
+        # Ensure a text index exists for BM25-style keyword search
+        try:
+            from pymongo import TEXT
+            self.collection.create_index([("text", TEXT)])
+        except Exception as e:
+            print(f"[MongoDB Store] Warning: Could not create text index: {e}")
+            
         print(f"[MongoDB Store] Initialized with collection: {collection_name}")
 
     def add_documents(self, documents: List[Any], user_id: str = None):
