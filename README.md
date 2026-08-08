@@ -1,8 +1,4 @@
-# Maester — RAG Chat Application
-
-A document-based AI assistant. Upload your files, ask questions, get answers grounded in your documents.
-
-![RAG Interface Demo](frontend/public/home.png)
+# LlamaDoc IQ — RAG Chat Application
 
 ## Features
 
