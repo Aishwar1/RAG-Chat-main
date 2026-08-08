@@ -3,42 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --bg-base: #f6f8f7;
-  --bg-surface: #ffffff;
-  --bg-surface-hover: #eef3f0;
-  --border-subtle: #dce5e0;
-  --border-glow: rgba(15, 118, 110, 0.25);
-  --text-primary: #14231f;
-  --text-secondary: #29443d;
-  --text-muted: #6b7d76;
-  --accent-purple: #0f766e;
-  --accent-indigo: #0f5f69;
-  --accent-teal: #0f766e;
-  --glow-purple: rgba(15, 118, 110, 0.12);
-  --code-bg: rgba(0, 0, 0, 0.05);
-  --progress-bg: rgba(0, 0, 0, 0.05);
+  --bg-base: #0c0c0c;
+  --bg-surface: #141414;
+  --bg-surface-hover: #1c1c1c;
+  --border-subtle: #2a2a2a;
+  --border-glow: rgba(251, 191, 36, 0.2);
+  --text-primary: #f0f0f0;
+  --text-secondary: #a8a8a8;
+  --text-muted: #555555;
+  --accent-purple: #fbbf24;
+  --accent-indigo: #f59e0b;
+  --accent-teal: #fbbf24;
+  --glow-purple: rgba(251, 191, 36, 0.08);
+  --code-bg: rgba(255, 255, 255, 0.05);
+  --progress-bg: rgba(255, 255, 255, 0.07);
 }
 
-/* ── Gemini-style dark palette ── */
+/* Dark mode — same as root (always dark) */
 html.dark {
-  --bg-base: #0b1513;
-  --bg-surface: #11221f;
-  --bg-surface-hover: #19312c;
-  --border-subtle: #29433d;
-  --border-glow: rgba(45, 212, 191, 0.34);
-  --text-primary: #edf7f2;
-  --text-secondary: #c7ddd3;
-  --text-muted: #89a69a;
-  --accent-purple: #48c9b0;
-  --accent-indigo: #74d6d1;
-  --accent-teal: #48c9b0;
-  --glow-purple: rgba(72, 201, 176, 0.16);
-  --code-bg: rgba(255, 255, 255, 0.08);
-  --progress-bg: rgba(255, 255, 255, 0.08);
+  --bg-base: #0c0c0c;
+  --bg-surface: #141414;
+  --bg-surface-hover: #1c1c1c;
+  --border-subtle: #2a2a2a;
+  --border-glow: rgba(251, 191, 36, 0.2);
+  --text-primary: #f0f0f0;
+  --text-secondary: #a8a8a8;
+  --text-muted: #555555;
+  --accent-purple: #fbbf24;
+  --accent-indigo: #f59e0b;
+  --accent-teal: #fbbf24;
+  --glow-purple: rgba(251, 191, 36, 0.08);
+  --code-bg: rgba(255, 255, 255, 0.05);
+  --progress-bg: rgba(255, 255, 255, 0.07);
 }
 
 * {
   box-sizing: border-box;
+  border-radius: 0 !important;
 }
 
 html,
@@ -136,7 +137,7 @@ html.dark .glass-card {
 
 /* ─── Gradient Text ─── */
 .gradient-text {
-  background: linear-gradient(135deg, #0f766e, #0f5f69, #299d8f);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #fcd34d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -278,13 +279,15 @@ html.dark .blur-backdrop {
 
 /* ─── Gradient Button ─── */
 .btn-gradient {
-  background: linear-gradient(135deg, #0f766e, #0b5b65);
+  background: linear-gradient(135deg, #1c1c1c, #222222);
+  border: 1px solid #2a2a2a;
   transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 
 .btn-gradient:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(15, 118, 110, 0.3);
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.4);
 }
 
 .btn-gradient:active:not(:disabled) {
@@ -298,25 +301,26 @@ html.dark .blur-backdrop {
 
 /* ─── Message Bubble ─── */
 .msg-user {
-  background: linear-gradient(135deg, #7c3aed, #4f46e5);
-  border-radius: 18px 18px 4px 18px;
+  background: linear-gradient(135deg, #1a1a1a, #222222);
+  border: 1px solid #333333;
+  border-radius: 0 !important;
   will-change: transform;
+  color: #f0f0f0;
 }
 
 .msg-ai {
-  background: rgba(255, 255, 255, 0.9);
+  background: #111111;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 18px 18px 18px 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  border: 1px solid #252525;
+  border-radius: 0 !important;
+  box-shadow: none;
   will-change: transform;
 }
 
 html.dark .msg-ai {
-  background: rgba(30, 31, 32, 0.9);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: #111111;
+  border: 1px solid #252525;
 }
 
 /* ─── Confidence Bar ─── */
@@ -337,7 +341,7 @@ html.dark .msg-ai {
 /* ─── Focus Glow ─── */
 .focus-glow:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.3);
 }
 
 /* ─── Gemini Bloom Glow ─── */
@@ -350,9 +354,9 @@ html.dark .msg-ai {
   height: 220px;
   max-width: 1000px;
   background: radial-gradient(ellipse at center,
-      rgba(219, 234, 254, 0.6) 0%,
-      rgba(243, 232, 255, 0.3) 35%,
-      rgba(255, 255, 255, 0) 70%);
+      rgba(251, 191, 36, 0.04) 0%,
+      rgba(245, 158, 11, 0.02) 35%,
+      rgba(0, 0, 0, 0) 70%);
   filter: blur(45px);
   pointer-events: none;
   z-index: 0;
@@ -366,41 +370,93 @@ html.dark .msg-ai {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.42;
-  background-image: linear-gradient(rgba(15, 118, 110, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 118, 110, 0.035) 1px, transparent 1px);
+  opacity: 0.18;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
 }
 
 .aishwar-mark {
-  background: linear-gradient(145deg, #0f766e, #0b4651);
-  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.24);
+  background: linear-gradient(145deg, #1c1c1c, #222222);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333333;
 }
 
 .aishwar-sidebar {
-  background: linear-gradient(180deg, #fdfefd 0%, #f3f7f5 100%) !important;
+  background: #0c0c0c !important;
 }
 
 html.dark .aishwar-sidebar {
-  background: linear-gradient(180deg, #10231f 0%, #0c1916 100%) !important;
+  background: #0c0c0c !important;
 }
 
 .aishwar-welcome-card {
-  background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(241,248,245,.88));
-  border: 1px solid rgba(15,118,110,.12);
-  box-shadow: 0 16px 40px rgba(19, 53, 44, .06);
+  background: #111111;
+  border: 1px solid #222222;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 html.dark .aishwar-welcome-card {
-  background: linear-gradient(135deg, rgba(21,45,39,.92), rgba(13,31,27,.92));
-  border-color: rgba(72,201,176,.14);
+  background: #111111;
+  border-color: #222222;
 }
 
 html.dark .gemini-bloom-glow {
   background: radial-gradient(ellipse at center,
-      rgba(37, 56, 111, 0.7) 0%,
-      rgba(71, 73, 207, 0.22) 35%,
-      rgba(129, 132, 255, 0.08) 60%,
+      rgba(251, 191, 36, 0.04) 0%,
+      rgba(245, 158, 11, 0.02) 35%,
       transparent 80%);
   filter: blur(55px);
+}
+
+/* ─── Glass overrides for dark theme ─── */
+.glass {
+  background: #111111;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid #232323;
+  box-shadow: none;
+}
+
+.glass-strong {
+  background: rgba(14, 14, 14, 0.98);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid #272727;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.glass-card {
+  background: rgba(14, 14, 14, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #222222;
+  border-radius: 0 !important;
+  box-shadow: none;
+}
+
+.blur-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+html.dark .blur-backdrop {
+  background: rgba(0, 0, 0, 0.82);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0 !important;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
 }
