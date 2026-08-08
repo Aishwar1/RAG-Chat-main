@@ -129,7 +129,11 @@ class MongoDBVectorStore:
             }
         ]
 
-        results = list(self.collection.aggregate(pipeline))
+        try:
+            results = list(self.collection.aggregate(pipeline))
+        except Exception as e:
+            print(f"[MongoDB Store] Vector search error (Index missing?): {e}")
+            results = []
 
         # Format results to match the previous Faiss store return type
         formatted_results = []
@@ -163,7 +167,11 @@ class MongoDBVectorStore:
             {"$project": {"text": 1, "metadata": 1, "source": 1, "text_score": 1}}
         ]
 
-        results = list(self.collection.aggregate(pipeline))
+        try:
+            results = list(self.collection.aggregate(pipeline))
+        except Exception as e:
+            print(f"[MongoDB Store] Keyword search error: {e}")
+            results = []
 
         formatted = []
         for res in results:
@@ -221,9 +229,25 @@ class MongoDBVectorStore:
             vec_future = executor.submit(self.search, query_text, top_k, user_id, selected_files)
             kw_future = executor.submit(self.keyword_search, query_text, top_k, user_id, selected_files)
             ex_future = executor.submit(self.exact_search, exact_pattern, top_k, user_id, selected_files) if exact_pattern else None
-            vector_results = vec_future.result()
-            keyword_results = kw_future.result()
+            
+            try:
+                vector_results = vec_future.result()
+            except Exception as e:
+                print(f"Vector search failed: {e}")
+                vector_results = []
+                
+            try:
+                keyword_results = kw_future.result()
+            except Exception as e:
+                print(f"Keyword search failed: {e}")
+                keyword_results = []
+                
             exact_results = ex_future.result() if ex_future else []
+
+        # If vector AND keyword fail (e.g. no indexes), fallback to regex search
+        if not vector_results and not keyword_results and not exact_results:
+            fallback_results = self.exact_search(query_text, top_k, user_id, selected_files)
+            exact_results.extend(fallback_results)
 
         # Build RRF score map: {doc_id: {score, metadata}}
         rrf_scores = {}
