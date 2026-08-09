@@ -491,8 +491,8 @@ const ChatInterface = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mt-6">
                   {[
                     { icon: <FileTextIcon size={17} />, title: 'Upload knowledge', text: 'Add reports and files', action: () => setShowUpload(true) },
-                    { icon: <DatabaseIcon size={17} />, title: 'Ask with context', text: 'Grounded in your data', action: () => textareaRef.current?.focus() },
-                    { icon: <LightningIcon size={17} />, title: 'Move faster', text: 'Get focused answers', action: () => textareaRef.current?.focus() },
+                    { icon: <DatabaseIcon size={17} />, title: 'Ask with context', text: 'Grounded in your data', action: () => handleSuggestionClick("Summarize my uploaded documents and list the key points.") },
+                    { icon: <LightningIcon size={17} />, title: 'Move faster', text: 'Get focused answers', action: () => handleSuggestionClick("What are the most important skills, metrics, or highlights mentioned in these files?") },
                   ].map((item) => (
                     <button key={item.title} onClick={item.action} className="text-left rounded-2xl p-3.5 transition-all hover:-translate-y-0.5 hover:shadow-md" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-base)' }}>
                       <span className="inline-flex p-2 rounded-xl mb-3" style={{ color: 'var(--accent-teal)', background: 'var(--bg-surface-hover)' }}>{item.icon}</span>

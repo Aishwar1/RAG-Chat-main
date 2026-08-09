@@ -12,7 +12,7 @@ from src.search import RAGSearch
 from src.data_loader import load_single_document
 from src.intent_classifier import IntentClassifier
 
-SIMILARITY_THRESHOLD = 0.60
+SIMILARITY_THRESHOLD = 0.10  # Lowered to ensure we don't throw away useful context
 
 CHITCHAT_SYSTEM = "You are a friendly conversational assistant. Respond naturally and casually."
 GENERAL_SYSTEM = """You are a document-based QA assistant. You can ONLY answer questions based on the documents uploaded by the user.
@@ -97,10 +97,9 @@ Summary:"""
 
         return history_msgs
 
-    def query(self, query_text: str, top_k: int = 3, selected_files: list = None, chat_history: list = None, user_id: str = None):
+    def query(self, query_text: str, top_k: int = 15, selected_files: list = None, chat_history: list = None, user_id: str = None):
         """
         Query the RAG system with optional file filtering and chat history.
-        Returns: (answer, sources_list)
         """
         # selected_files=None means no filter, selected_files=[] means nothing selected → no results
         if selected_files is not None and len(selected_files) == 0:
@@ -126,10 +125,8 @@ Summary:"""
             results = self.rag_search.vectorstore.hybrid_search(
                 query_text, top_k=candidate_k, user_id=user_id, selected_files=selected_files
             )
+            # Filter loosely
             results = [r for r in results if (1.0 - r.get("distance", 1.0)) >= SIMILARITY_THRESHOLD]
-
-            if not results:
-                return self.respond_direct(query_text, "general", chat_history)
 
             # Re-rank and trim to top_k
             if len(results) > 1:
