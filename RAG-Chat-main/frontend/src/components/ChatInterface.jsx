@@ -138,6 +138,13 @@ const ChatInterface = () => {
     el.style.height = Math.min(el.scrollHeight, 180) + 'px';
   }, [input]);
 
+  const handleSuggestionClick = (query) => {
+    setInput(query);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
   const handleSend = async () => {
     if (!input.trim() || loading || isSendingRef.current) return;
     isSendingRef.current = true;
