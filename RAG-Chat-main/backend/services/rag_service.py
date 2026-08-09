@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 from langchain_core.messages import SystemMessage, HumanMessage
-from sentence_transformers import CrossEncoder
 
 # Import from src/
 from src.search import RAGSearch
@@ -41,8 +40,8 @@ class RAGServiceWrapper:
         self.rag_search = RAGSearch()
         self.classifier = IntentClassifier(self.rag_search.llm)
 
-        print("[RAG Service] Loading cross-encoder reranker...")
-        self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+        # Disabled Cross-Encoder to save 200MB+ RAM for Render 512MB free tier limit
+        # self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
         self._initialized = True
         print("[RAG Service] MongoDB RAG pipeline ready!")
@@ -128,13 +127,9 @@ Summary:"""
             # Filter loosely
             results = [r for r in results if (1.0 - r.get("distance", 1.0)) >= SIMILARITY_THRESHOLD]
 
-            # Re-rank and trim to top_k
-            if len(results) > 1:
-                candidate_texts = [r["metadata"].get("text", "") for r in results if r.get("metadata")]
-                pairs = [(query_text, t) for t in candidate_texts]
-                rerank_scores = self.reranker.predict(pairs)
-                scored = sorted(zip(rerank_scores, results), key=lambda x: x[0], reverse=True)
-                results = [r for _, r in scored[:top_k]]
+            # Re-rank disabled to save RAM
+            if len(results) > top_k:
+                results = results[:top_k]
 
 
         # Build context — group by source file so LLM sees each document's content together
