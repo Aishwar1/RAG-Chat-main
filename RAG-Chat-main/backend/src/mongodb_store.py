@@ -3,7 +3,7 @@ import re
 from typing import List, Any, Dict, Optional
 from concurrent.futures import ThreadPoolExecutor
 from pymongo import MongoClient
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 from src.embedding import EmbeddingPipeline
 
 # Regex patterns for structured entities that vector/BM25 both fail on
@@ -49,7 +49,7 @@ class MongoDBVectorStore:
         db_name: str = "rag_database",
         collection_name: str = "vectors",
         index_name: str = "vector_index",
-        embedding_model: str = "all-MiniLM-L6-v2"
+        embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     ):
         self.mongodb_uri = mongodb_uri or os.getenv("MONGODB_URI")
         if not self.mongodb_uri:
@@ -61,7 +61,7 @@ class MongoDBVectorStore:
         self.index_name = index_name
         
         self.model_name = embedding_model
-        self.model = SentenceTransformer(embedding_model)
+        self.model = TextEmbedding(embedding_model)
         self.emb_pipe = EmbeddingPipeline(model_name=embedding_model)
         
         # Ensure a text index exists for BM25-style keyword search
@@ -97,7 +97,7 @@ class MongoDBVectorStore:
     def search(self, query_text: str, top_k: int = 5, user_id: str = None, selected_files: list = None) -> List[Dict]:
         """Perform vector search using Atlas Vector Search aggregation"""
         import re
-        query_embedding = self.model.encode(query_text).tolist()
+        query_embedding = list(self.model.embed([query_text]))[0].tolist()
 
         post_match = {}
         if user_id:
