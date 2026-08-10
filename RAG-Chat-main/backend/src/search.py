@@ -6,7 +6,7 @@ from langchain_groq import ChatGroq
 load_dotenv()
 
 class RAGSearch:
-    def __init__(self, embedding_model: str = "all-MiniLM-L6-v2", llm_model: str = "llama-3.1-8b-instant"):
+    def __init__(self, embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2", llm_model: str = "llama-3.1-8b-instant"):
         self.vectorstore = MongoDBVectorStore(embedding_model=embedding_model)
 
         groq_api_key = os.getenv("GROQ_API_KEY")
